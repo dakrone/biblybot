@@ -36,7 +36,8 @@
   [blip]
   (let [view (.getDocument blip)
         text (.getText view)]
-    (.replace view (roll text))))
+    (if-not (= (re-find #"\d+d\d+" text) nil) 
+      (.replace view (roll text)))))
 
 (defn -processEvents
   [this bundle]
