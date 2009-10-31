@@ -8,13 +8,13 @@
  
 (defn blip-submitted-events
   [events]
-  (filter (fn [e] (= (EventType/BLIP_SUBMITTED) (.getType e))) events))
+  (filter (fn [e] (= EventType/BLIP_SUBMITTED (.getType e))) events))
 
 (defn roll-die
   "Roll a die with <sides> sides."
   [sides]
   ;(println (str "rolling dice, sides: " sides))
-  (+ 1 (rand-int sides)))
+  (inc (rand-int sides)))
 
 (defn calculate-rolls
   "Given a re-pattern match group, calculate the dice roll"
@@ -36,7 +36,7 @@
   [blip]
   (let [view (.getDocument blip)
         text (.getText view)]
-    (if-not (= (re-find #"\d+d\d+" text) nil) 
+    (when (re-find #"\d+d\d+" text) 
       (.replace view (roll text)))))
 
 (defn -processEvents
